@@ -1,0 +1,7 @@
+
+# ignore cmake folder
+cmake-build-debug/*
+
+.DS_Store
+
+.idea/
