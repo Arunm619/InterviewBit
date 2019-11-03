@@ -9,6 +9,8 @@ int coverPoints(vector<int> &A, vector<int> &B) {
 }
 
 /**
+ * Time - O(N)
+ * Space - O(1)
 
  You are in an infinite 2D grid where you can move in any of the 8 directions :
 
