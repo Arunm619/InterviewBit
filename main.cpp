@@ -4,30 +4,27 @@
 
 using namespace std;
 
-
-vector<int> getNext(vector<int> prev) {
-    vector<int> next;
-    int size = prev.size() + 1;
-    next.resize(size);
-    next.push_back(1);
-    for (int i = 0; i < prev.size() - 1; i++) {
-        next.push_back(prev[i] + prev[i + 1]);
-    }
-    next.push_back(1);
-    return next;
+int cmp(const string &a, const string &b) {
+    string ab = a + b;
+    string ba = b + a;
+    return ab > ba;
 }
 
-vector<vector<int> > solve(int A) {
-    vector<int> firstRow{1};
-    vector<vector<int>> result{firstRow};
-    auto prev = firstRow;
-    for (int i = 0; i < A; i++) {
-        auto next = getNext(prev);
-        result.push_back(next);
-        prev = next;
+string largestNumber(vector<int> A) {
+    vector<string> S;
+    S.reserve(A.size());
+    for (auto &i : A) S.push_back(to_string(i));
+    sort(begin(S), end(S), [](const string &a, const string &b) {
+             string ab = a + b;
+             string ba = b + a;
+             return ab > ba;
+         }
+    );
+    string res;
+    for (auto &i : S) {
+        res += i;
     }
-
-    return result;
+    return res;
 }
 
 
@@ -41,10 +38,7 @@ int main() {
 //        cout << endl;
 //    }
 
-
-    for (auto &i : getNext({1})) {
-        cout << i << " ";
-    }
+    cout << largestNumber({1, 2, 3, 4});
 
 
     return 0;
