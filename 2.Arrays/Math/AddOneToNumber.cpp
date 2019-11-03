@@ -1,27 +1,27 @@
 class Solution {
 public:
-    vector<int> plusOne(vector<int>& A) {
-        std::reverse(begin(A),end(A));
+    vector<int> plusOne(vector<int> &A) {
+        std::reverse(begin(A), end(A));
         int sum = 0, carry = 1;
         int i = 0;
-        while(i < A.size() and carry){
+        while (i < A.size() and carry) {
 
-            sum = A[i]+carry;
-            carry = sum/10;
-            sum = sum%10;
-            A[i]=sum;
+            sum = A[i] + carry;
+            carry = sum / 10;
+            sum = sum % 10;
+            A[i] = sum;
             i++;
         }
 
-        if(carry == 1){
+        if (carry == 1) {
             A.push_back(1);
         }
 
-        while(A.back()==0){
+        while (A.back() == 0) {
             A.pop_back();
         }
 
-        std::reverse(begin(A),end(A));
+        std::reverse(begin(A), end(A));
 
         return A;
     }
