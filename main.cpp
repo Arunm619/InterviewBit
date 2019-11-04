@@ -4,45 +4,66 @@
 
 using namespace std;
 
-void printMeetings(const vector<pair<int, int>> &meetings) {
-    for (auto &each : meetings) {
-        cout << each.first << "-" << each.second << "\n";
+void print(vector<vector<int>> &a) {
+    cout << endl;
+    for (auto &i : a) {
+        for (auto &j : i) {
+            cout << j << " ";
+        }
+        cout << endl;
     }
 }
-bool hotel(vector<int> arrive, vector<int> depart, int K) {
-    vector<pair<int, int>> times;
-    times.reserve(arrive.size());
-    for (size_t i = 0; i < arrive.size(); i++) {
-        times.emplace_back(arrive[i], depart[i]);
-    }
 
-    sort(begin(times), end(times));
+void setZeroes(vector<vector<int> > &matrix) {
+    int n = matrix.size(), m = matrix[0].size();
+    int hasfirstrowZero = 0, hasfirstcolZero = 0;
 
-    printMeetings(times);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                if (i == 0) hasfirstrowZero = 1;
+                if (j == 0) hasfirstcolZero = 1;
 
-    K--; //for first room.
-    for (size_t i = 1; i < times.size(); i++) {
-        if (times[i].first >=times[i - 1].second  ) {
-            continue;
-            //non overlapping times.
-        } else if(K>0){
-            //overlapping
-           // we have more rooms
-            K--;
-        } else{
-            //we dont have rooms
-            return false;
+                matrix[i][0] = 0;
+                matrix[0][j] = 0;
+            }
         }
     }
-    return true;
-}
 
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < m; j++) {
+
+            if (matrix[i][0] == 0 or matrix[0][j] == 0) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    if (hasfirstcolZero) {
+        for (int i = 0; i < n; i++) {
+            matrix[i][0] = 0;
+        }
+    }
+
+
+    if (hasfirstrowZero) {
+        for (int i = 0; i < m; i++) {
+            matrix[0][i] = 0;
+        }
+    }
+}
 
 int main() {
 
 
-    cout << hotel({ 1, 2, 3, 4 },
-                  {10, 2, 6, 14},
-                  2);
+    vector<vector<int>> mat{
+            {0, 1},
+            {1, 1}
+    };
+    print(mat);
+    setZeroes(mat);
+
+    print(mat);
+
     return 0;
 }
