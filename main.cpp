@@ -3,43 +3,32 @@
 #include <set>
 
 using namespace std;
+vector<int> wave(vector<int> A) {
+    bool flag = true;
+    for(int i= 0; i < A.size()-1; i++)
+    {
+        if(flag){
+            if(A[i]<A[i+1])
+                swap(A[i],A[i+1]);
+            flag = false;
+        }
+        else{
+            if(A[i]>A[i+1])
+                swap(A[i],A[i+1]);
+            flag = true;
+        }
 
-int cmp(const string &a, const string &b) {
-    string ab = a + b;
-    string ba = b + a;
-    return ab > ba;
-}
-
-string largestNumber(vector<int> A) {
-    vector<string> S;
-    S.reserve(A.size());
-    for (auto &i : A) S.push_back(to_string(i));
-    sort(begin(S), end(S), [](const string &a, const string &b) {
-             string ab = a + b;
-             string ba = b + a;
-             return ab > ba;
-         }
-    );
-    string res;
-    for (auto &i : S) {
-        res += i;
+        //flag = !flag;
     }
-    return res;
+    return A;
 }
+
 
 
 int main() {
-
-//    auto res = solve(4);
-//    for (auto &i : res) {
-//        for (auto &j : i) {
-//            cout << j << " ";
-//        }
-//        cout << endl;
-//    }
-
-    cout << largestNumber({1, 2, 3, 4});
-
+    for(auto& i : wave({5,1,3,2,4})){
+        cout<< i<< " ";
+    }
 
     return 0;
 }
