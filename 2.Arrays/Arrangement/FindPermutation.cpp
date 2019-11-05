@@ -1,4 +1,4 @@
-
+/// https://leetcode.com/articles/find-permutation/
 vector<int> findPerm(const string secret, int B) {
     vector<int> combination;
     stack<int> st;
