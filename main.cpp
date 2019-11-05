@@ -1,69 +1,119 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <stack>
 
 using namespace std;
 
-void print(vector<vector<int>> &a) {
-    cout << endl;
-    for (auto &i : a) {
-        for (auto &j : i) {
-            cout << j << " ";
+//1.find permutation
+vector<int> findPermutation(string &secret) {
+    vector<int> combination;
+    stack<int> st;
+    int walker = 1;
+    for (char &c : secret) {
+        if (c == 'D') {
+            st.push(walker);
+        } else {
+            //if it is 'I'
+            st.push(walker);
+            while (!st.empty()) {
+                combination.push_back(st.top());
+                st.pop();
+            }
         }
-        cout << endl;
+        walker++;
+    }
+
+    st.push(walker);
+    while (!st.empty()) {
+        combination.push_back(st.top());
+        st.pop();
+    }
+
+    return combination;
+}
+
+
+/*
+ 1.Find Permutation
+ 2.Next Permutation
+ 3.Merge Intervals
+ 4.Merge Overlapping Intervals
+ 5.N/3 Repeat Numbers.
+ 6.Simple Queries.
+ */
+
+void permute(string &s, string &newString, vector<string> &vec) {
+    if (s.empty()) {
+        vec.push_back(newString);
+    } else
+        for (int idx = 0; idx < s.size(); idx++) {
+            newString.push_back(s[idx]);
+            s.erase(idx, 1);
+            permute(s, newString, vec);
+            s.insert(idx, 1, newString.back());
+            newString.pop_back();
+        }
+}
+
+void generateAllPermutations(string s) {
+    vector<string> result;
+    string chosen;
+    permute(s, chosen, result);
+    for (auto &i : result) {
+        cout << i << " \n";
     }
 }
 
-void setZeroes(vector<vector<int> > &matrix) {
-    int n = matrix.size(), m = matrix[0].size();
-    int hasfirstrowZero = 0, hasfirstcolZero = 0;
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (matrix[i][j] == 0) {
-                if (i == 0) hasfirstrowZero = 1;
-                if (j == 0) hasfirstcolZero = 1;
-
-                matrix[i][0] = 0;
-                matrix[0][j] = 0;
+vector<int> nextPermutationVC(vector<int> A) {
+    int n = A.size();
+    int k = 0;
+    for (k = n - 2; k >= 0; k--) {
+        if (A[k] < A[k + 1]) {
+            break;
+        }
+    }
+    if (k == 0) {
+        reverse(begin(A), end(A));
+        return A;
+    } else {
+        int l = 0;
+        for (l = n - 1; l >= 0; l--) {
+            if (A[l] > A[k]) {
+                break;
             }
         }
+        swap(A[l], A[k]);
+        reverse(begin(A) + k + 1, end(A));
     }
-
-    for (int i = 1; i < n; i++) {
-        for (int j = 1; j < m; j++) {
-
-            if (matrix[i][0] == 0 or matrix[0][j] == 0) {
-                matrix[i][j] = 0;
-            }
-        }
-    }
-
-    if (hasfirstcolZero) {
-        for (int i = 0; i < n; i++) {
-            matrix[i][0] = 0;
-        }
-    }
-
-
-    if (hasfirstrowZero) {
-        for (int i = 0; i < m; i++) {
-            matrix[0][i] = 0;
-        }
-    }
+    return A;
 }
+
+
+
+vector<int> nextPermutationSTL(vector<int> A) {
+    if (next_permutation(begin(A), end(A))) {
+        cout << "There is next permutaion!";
+    } else {
+        cout << "Reversing!";
+
+        cout<<"Before:\n";
+        for (auto &i : A) cout << i << ' ';
+        cout<< "\nAfter\n";
+        reverse(begin(A), end(A));
+        for (auto &i : A) cout << i << ' ';
+    }
+
+
+    return A;
+}
+
 
 int main() {
 
+    auto res = nextPermutationSTL({3, 2, 1});
 
-    vector<vector<int>> mat{
-            {0, 1},
-            {1, 1}
-    };
-    print(mat);
-    setZeroes(mat);
 
-    print(mat);
-
+   // for (auto &i : res) cout << i << ' ';
     return 0;
 }
